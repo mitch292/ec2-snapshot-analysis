@@ -85,10 +85,17 @@ def create_snapshots(project):
   instances = filter_instances(project)
 
   for i in instances:
+    print("Stopping {0}...".format(i.id))
     i.stop()
+    i.wait_until_stopped()
     for v in i.volumes.all():
       print('Creatingsnapshot of {0}'.format(v.id))
       v.create_snapshot(Description='Created by ec2-snapshot-analysis')
+    print("Starting {0}...".format(i.id))
+    i.start()
+    i.wait_until_running()
+
+  print("Snapshot process complete!")
   return
 
 
@@ -127,8 +134,8 @@ def stop_instances(project):
 
 @instances.command('start')
 @click.option('--project', default=None, help='Only instances for project')
-def stop_instances(project):
-  "start EC2 Instances"
+def start_instances(project):
+  "Start EC2 Instances"
 
   instances = filter_instances(project)
 
