@@ -10,6 +10,7 @@ click = "*"
 [dev-packages]
 ipython = "*"
 pylint = "<2.0.0"
+setuptools = "*"
 
 [requires]
 python_version = "3.6"
